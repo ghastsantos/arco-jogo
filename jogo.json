@@ -1,0 +1,37 @@
+{
+    "tituloPagina": "O Ciclo da Água",
+    "telaInicial": {
+      "tituloJogo": "O Ciclo da Água - Jogo Educativo",
+      "botaoIniciar": "Iniciar"
+    },
+    "telaJogo": {
+      "labelPlacar": "Placar",
+      "tituloDraggables": "Descrições",
+      "botaoTerminar": "Terminar"
+    },
+    "telaFinal": {
+      "titulo": "Parabéns!",
+      "mensagem": "Você concluiu o jogo.",
+      "labelPontuacaoFinal": "Pontuação final",
+      "botaoReiniciar": "Jogar novamente"
+    },
+    "opcoes": [
+      {
+        "nome": "Evaporação",
+        "descricao": "Com o calor do sol, a água de rios, mares e lagos se transforma em vapor, subindo e iniciando o ciclo."
+      },
+      {
+        "nome": "Condensação",
+        "descricao": "O vapor de água sobe e esfria nas camadas altas da atmosfera, formando pequenas gotas que dão origem às nuvens."
+      },
+      {
+        "nome": "Precipitação",
+        "descricao": "As nuvens, ao ficarem saturadas de gotas, liberam a água de volta à Terra em forma de chuva, neve ou granizo."
+      },
+      {
+        "nome": "Infiltração",
+        "descricao": "Parte da água da chuva penetra no solo, abastecendo aquíferos e fontes subterrâneas."
+      }
+    ]
+  }
+  

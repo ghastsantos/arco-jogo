@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title id="page-title"></title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=ABeeZee&family=Playwrite&family=Butterfly+Kids&display=swap" rel="stylesheet">
+
+</head>
+<body>
+
+  <div class="sky">
+    <div class="cloud cloud1"></div>
+    <div class="cloud cloud2"></div>
+    <div class="cloud cloud3"></div>
+    <div class="sun"></div>
+  </div>
+
+  <main id="app">
+    <section id="start-screen" class="screen">
+      <h1 id="game-title"></h1>
+      <button id="start-btn" class="btn"></button>
+    </section>
+
+    <section id="game-screen" class="screen hidden">
+      <header class="topbar">
+        <div id="score-label"></div>
+        <h1>Instruções: Segure a descrição desejada e arraste até a opção correta</h1>
+      </header>
+
+      <div class="board">
+        <div class="targets" id="targets"></div>
+        <div class="draggables-wrapper">
+          <h3 id="draggables-title"></h3>
+          <div id="draggables" class="draggables"></div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button id="end-btn" class="btn"></button>
+      </div>
+    </section>
+
+    <section id="end-screen" class="screen hidden">
+      <h2 id="end-title"></h2>
+      <p id="end-message"></p>
+      <p id="final-score-label"></p>
+      <button id="restart-btn" class="btn"></button>
+    </section>
+  </main>
+
+  <div class="hero">
+    <div class="hero-image">
+      <img src="./images/hero.png" alt="Desenho criança">
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
