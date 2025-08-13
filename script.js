@@ -193,9 +193,7 @@ function buildFromJSON(data){
       ev.dataTransfer.setData('text/plain', d.id);
       d.classList.add('dragging');
     });
-    d.addEventListener('dragend', () => d.classList.remove('dragging'));
-
-    d.addEventListener('touchstart', function(ev){
+    d.addEventListener('dragend', () => d.classList.remove('dragging'));    d.addEventListener('touchstart', function(ev){
       if(ev.touches.length !== 1) return;
       d._touching = true;
       d._startX = ev.touches[0].clientX;
@@ -206,7 +204,8 @@ function buildFromJSON(data){
       document.body.appendChild(d);
       d._move = function(e){
         if(!d._touching) return;
-        e.preventDefault();
+        let deltaY = e.touches[0].clientY - d._startY;
+        if(deltaY > 0) e.preventDefault();
         let x = e.touches[0].clientX, y = e.touches[0].clientY;
         d.style.left = (x - d.offsetWidth/2) + 'px';
         d.style.top = (y - d.offsetHeight/2) + 'px';
