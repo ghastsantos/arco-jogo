@@ -242,8 +242,7 @@
   #draggables-title{
     font-size: 2rem;
   }
-  
-  .draggable{
+    .draggable{
     background: #fff;
     border:1px solid #e6eef9;
     padding:12px;
@@ -256,6 +255,14 @@
   .draggable.dragging{
     opacity:0.7;
     transform:scale(1.02);
+  }
+
+  .draggable.selected{
+    background: var(--accent);
+    color: white;
+    border-color: var(--darker-blue);
+    box-shadow: 0 8px 20px rgba(43, 123, 219, 0.3);
+    transform: scale(1.05);
   }
   
   .feedback{

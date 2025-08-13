@@ -3,11 +3,12 @@
     "telaInicial": {
       "tituloJogo": "O Ciclo da Água - Jogo Educativo",
       "botaoIniciar": "Iniciar"
-    },
-    "telaJogo": {
+    },    "telaJogo": {
       "labelPlacar": "Placar",
       "tituloDraggables": "Descrições",
-      "botaoTerminar": "Terminar"
+      "botaoTerminar": "Terminar",
+      "instrucaoDesktop": "Instruções: Segue a descrição desejada e arraste até a opção correta.",
+      "instrucaoMobile": "Instruções: Toque para selecionar uma descrição, depois toque na opção correta."
     },
     "telaFinal": {
       "titulo": "Parabéns!",

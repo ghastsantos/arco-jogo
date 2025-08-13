@@ -13,6 +13,7 @@ const scoreLabel = document.getElementById('score-label');
 const targets = document.getElementById('targets');
 const draggablesTitle  = document.getElementById('draggables-title');
 const draggables     = document.getElementById('draggables');
+const instructionsText = document.getElementById('instructions-text');
 
 const endBtn           = document.getElementById('end-btn');
 const endtitle       = document.getElementById('end-title');
@@ -100,9 +101,15 @@ function buildFromJSON(data){
     scoreSpan.textContent = '0';
     scoreLabel.appendChild(scoreSpan);
   }
-
   if(draggablesTitle) draggablesTitle.textContent = (telaJogo.tituloDraggables || '');
   if(endBtn) endBtn.textContent = (telaJogo.botaoTerminar || '');
+
+  if(instructionsText) {
+    const instrucao = state.isMobile ? 
+      (telaJogo.instrucaoMobile || 'Toque para selecionar uma descrição, depois toque na etapa correspondente') :
+      (telaJogo.instrucaoDesktop || 'Arraste as descrições até as etapas correspondentes');
+    instructionsText.textContent = 'Instruções: ' + instrucao;
+  }
 
   //tela final
   if(endtitle) endtitle.textContent = (telaFinal.titulo || '');
