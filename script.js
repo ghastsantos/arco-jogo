@@ -4,13 +4,13 @@ const startScreen = document.getElementById('start-screen');
 const gameScreen  = document.getElementById('game-screen');
 const endScreen   = document.getElementById('end-screen');
 
-const pageTitle      = document.getElementById('page-title');
-const title          = document.getElementById('game-title');
-const startBtn         = document.getElementById('start-btn');
+const pageTitle = document.getElementById('page-title');
+const title = document.getElementById('game-title');
+const startBtn = document.getElementById('start-btn');
 
-const scoreLabel     = document.getElementById('score-label');
+const scoreLabel = document.getElementById('score-label');
 
-const targets        = document.getElementById('targets');
+const targets = document.getElementById('targets');
 const draggablesTitle  = document.getElementById('draggables-title');
 const draggables     = document.getElementById('draggables');
 
@@ -206,6 +206,7 @@ function buildFromJSON(data){
       document.body.appendChild(d);
       d._move = function(e){
         if(!d._touching) return;
+        e.preventDefault();
         let x = e.touches[0].clientX, y = e.touches[0].clientY;
         d.style.left = (x - d.offsetWidth/2) + 'px';
         d.style.top = (y - d.offsetHeight/2) + 'px';
