@@ -108,7 +108,7 @@ function buildFromJSON(data){
     const instrucao = state.isMobile ? 
       (telaJogo.instrucaoMobile || 'Toque para selecionar uma descrição, depois toque na etapa correspondente') :
       (telaJogo.instrucaoDesktop || 'Arraste as descrições até as etapas correspondentes');
-    instructionsText.textContent = 'Instruções: ' + instrucao;
+    instructionsText.textContent = instrucao;
   }
 
   //tela final
