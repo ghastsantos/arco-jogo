@@ -25,6 +25,8 @@ let state = {
   score: 0,
   total: 0,
   originalPositions: new Map(),
+  selectedItem: null,
+  isMobile: /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
 };
 
 //ajuda
@@ -138,7 +140,9 @@ function buildFromJSON(data){
     t.setAttribute('aria-label', etapa.nome || ('alvo-' + idx));
     t.textContent = etapa.nome || '';
 
-    t.addEventListener('dragover', (ev) => ev.preventDefault());
+    if(!state.isMobile) {
+      t.addEventListener('dragover', (ev) => ev.preventDefault());
+    }
 
     const onDrop = (ev) => {
       ev.preventDefault();
@@ -147,7 +151,6 @@ function buildFromJSON(data){
       if(!dragged || dragged.draggable === false) return;
 
       if(dragged.dataset.name === t.dataset.name){
-        //correto
         t.classList.add('correct');
         t.appendChild(dragged);
         dragged.draggable = false;
@@ -155,19 +158,42 @@ function buildFromJSON(data){
         const scoreElement2 = document.getElementById('score');
         if(scoreElement2) scoreElement2.textContent = String(state.score);
         showFeedback('Correto!', 'ok');
-
-        //bloquear este alvo
         t.removeEventListener('drop', onDrop);
         t.removeEventListener('dragover', (e)=>e.preventDefault);
         checkEnd();
       } else {
-        //incorreto
         showFeedback('Incorreto. Tente novamente.', 'bad');
         setTimeout(()=> restoreOriginalPosition(dragged), 300);
       }
     };
 
-    t.addEventListener('drop', onDrop);
+    const onMobileClick = () => {
+      if(!state.selectedItem) return;
+      
+      if(state.selectedItem.dataset.name === t.dataset.name){
+        t.classList.add('correct');
+        t.appendChild(state.selectedItem);
+        state.selectedItem.classList.remove('selected');
+        state.selectedItem = null;
+        state.score += 1;
+        const scoreElement2 = document.getElementById('score');
+        if(scoreElement2) scoreElement2.textContent = String(state.score);
+        showFeedback('Correto!', 'ok');
+        t.removeEventListener('click', onMobileClick);
+        checkEnd();
+      } else {
+        showFeedback('Incorreto. Tente novamente.', 'bad');
+        state.selectedItem.classList.remove('selected');
+        state.selectedItem = null;
+      }
+    };
+
+    if(state.isMobile) {
+      t.addEventListener('click', onMobileClick);
+    } else {
+      t.addEventListener('drop', onDrop);
+    }
+    
     targets.appendChild(t);
   });
 
@@ -175,12 +201,11 @@ function buildFromJSON(data){
   const shuffled = opcoes
     .map((e, i) => ({ ...e, id: 'd-' + i }))
     .sort(()=> Math.random() - 0.5);
-
   shuffled.forEach(item => {
     const d = document.createElement('div');
     d.className = 'draggable';
     d.id = item.id;
-    d.draggable = true;
+    d.draggable = !state.isMobile;
     d.dataset.name = item.nome || '';
     d.textContent = item.descricao || '';
     d.setAttribute('role','button');
@@ -189,61 +214,24 @@ function buildFromJSON(data){
     draggables.appendChild(d);
     saveOriginalPosition(d);
 
-    d.addEventListener('dragstart', (ev) => {
-      ev.dataTransfer.setData('text/plain', d.id);
-      d.classList.add('dragging');
-    });
-    d.addEventListener('dragend', () => d.classList.remove('dragging'));    d.addEventListener('touchstart', function(ev){
-      if(ev.touches.length !== 1) return;
-      d._touching = true;
-      d._startX = ev.touches[0].clientX;
-      d._startY = ev.touches[0].clientY;
-      d.style.position = 'absolute';
-      d.style.zIndex = 1000;
-      d.classList.add('dragging');
-      document.body.appendChild(d);
-      d._move = function(e){
-        if(!d._touching) return;
-        let deltaY = e.touches[0].clientY - d._startY;
-        if(deltaY > 0) e.preventDefault();
-        let x = e.touches[0].clientX, y = e.touches[0].clientY;
-        d.style.left = (x - d.offsetWidth/2) + 'px';
-        d.style.top = (y - d.offsetHeight/2) + 'px';
-      };
-      document.addEventListener('touchmove', d._move, {passive:false});
-    });
-
-    d.addEventListener('touchend', function(ev){
-      if(!d._touching) return;
-      d._touching = false;
-      d.classList.remove('dragging');
-      d.style.position = '';
-      d.style.left = '';
-      d.style.top = '';
-      d.style.zIndex = '';
-      document.removeEventListener('touchmove', d._move);
-      let x = ev.changedTouches[0].clientX, y = ev.changedTouches[0].clientY;
-      let el = document.elementFromPoint(x, y);
-      while(el && !el.classList.contains('target') && el !== document.body) el = el.parentNode;
-      if(el && el.classList.contains('target') && el.dataset.name){
-        if(d.dataset.name === el.dataset.name){
-          el.classList.add('correct');
-          el.appendChild(d);
-          d.draggable = false;
-          state.score += 1;
-          const scoreElement2 = document.getElementById('score');
-          if(scoreElement2) scoreElement2.textContent = String(state.score);
-          showFeedback('Correto!', 'ok');
-          el.replaceWith(el.cloneNode(true));
-          checkEnd();
+    if(state.isMobile) {
+      d.addEventListener('click', function(){
+        document.querySelectorAll('.draggable').forEach(el => el.classList.remove('selected'));
+        if(state.selectedItem === d) {
+          state.selectedItem = null;
+          d.classList.remove('selected');
         } else {
-          showFeedback('Incorreto. Tente novamente.', 'bad');
-          setTimeout(()=> restoreOriginalPosition(d), 300);
+          state.selectedItem = d;
+          d.classList.add('selected');
         }
-      } else {
-        restoreOriginalPosition(d);
-      }
-    });
+      });
+    } else {
+      d.addEventListener('dragstart', (ev) => {
+        ev.dataTransfer.setData('text/plain', d.id);
+        d.classList.add('dragging');
+      });
+      d.addEventListener('dragend', () => d.classList.remove('dragging'));
+    }
   });
 }
 
